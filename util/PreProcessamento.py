@@ -6,7 +6,7 @@ class PreProcesso(object):
     def __init__(self):
         self.translator = Translator()
 
-    def link_prox_pulls(self, header):
+    def link_prox_(self, header):
         for link in header:
             info = link.split(";")
             next = info[1].replace("rel", "").replace("=", "").replace('"', "").replace(" ", "")
@@ -25,3 +25,14 @@ class PreProcesso(object):
             pulls.append(traduzido.text)
 
         return pulls
+
+    def get_list_commits(self,response_commits):
+        print(response_commits)
+
+        commits = []
+
+        for commit in response_commits.json():
+            commits.append(commit)
+            print(commit)
+
+        return commits

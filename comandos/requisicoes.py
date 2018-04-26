@@ -16,7 +16,7 @@ class Requisicoes(object):
         pulls.append(self.processamento.get_list_pulls(response))
 
         while prox:
-            link_prox = self.processamento.link_prox_pulls(response.headers['Link'].split(","))
+            link_prox = self.processamento.link_prox_(response.headers['Link'].split(","))
 
             if link_prox != '':
                 response = requests.get(link_prox)
@@ -25,3 +25,21 @@ class Requisicoes(object):
                 prox = False
 
         return pulls
+
+    def get_commits(self,usuario,projeto):
+        commits = []
+        prox = True
+        path = '/repos/' + usuario + '/' + projeto + '/commits'
+        response = requests.get(self.url_base + path)
+        commits.append(self.processamento.get_list_commits(response))
+
+        while prox:
+            link_prox = self.processamento.link_prox_(response.headers['Link'].split(","))
+
+            if link_prox != '':
+                response = requests.get(link_prox)
+                commits.extend(self.processamento.get_list_commits(response))
+            else:
+                prox = False
+
+        return commits
