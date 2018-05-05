@@ -26,13 +26,13 @@ class PreProcesso(object):
 
         return pulls
 
-    def get_list_commits(self,response_commits):
-        print(response_commits)
+    def get_list_commits(self, response_commits,urls):
+        for commit in response_commits:
+            if commit != None:
+                author_commit = commit['author']
+                if author_commit != None:
+                    url_author = author_commit['url']
+                    if url_author != None and url_author not in urls:
+                        urls.append(url_author)
 
-        commits = []
-
-        for commit in response_commits.json():
-            commits.append(commit)
-            print(commit)
-
-        return commits
+        return urls

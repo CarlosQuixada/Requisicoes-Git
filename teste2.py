@@ -11,9 +11,38 @@ import json
 
         return ''
 '''
-hearders = {'Content-Type': 'application/vnd.github.v3+json',}
-resp = requests.get('https://api.github.com/repos/npi-ufc-qxd/contest/commits')
+#hearders = {'Content-Type': 'application/vnd.github.v3+json',}
+resp = requests.get('https://api.github.com/repos/npi-ufc-qxd/contest/commits',auth=('CarlosQuixada', 'C@rlos95'))
 print(resp.text)
+commits = resp.json()
+urls = []
+for commit in commits:
+    author_commit = commit['author']
+    url_author = author_commit['url']
+    #print(author_commit)
+    print(url_author)
+    if url_author not in urls:
+        urls.append(url_author)
+
+print(urls)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''header = resp.headers
 prox_commit=link_prox_commit(header['Link'].split(","))
 print(prox_commit)

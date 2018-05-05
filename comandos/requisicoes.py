@@ -26,20 +26,22 @@ class Requisicoes(object):
 
         return pulls
 
-    def get_commits(self,usuario,projeto):
-        commits = []
+    def get_urls_author(self,usuario,projeto):
+        urls_author = []
         prox = True
         path = '/repos/' + usuario + '/' + projeto + '/commits'
-        response = requests.get(self.url_base + path)
-        commits.append(self.processamento.get_list_commits(response))
+        response = requests.get(self.url_base + path,auth=('CarlosQuixada', 'C@rlos95'))
+        urls_author = self.processamento.get_list_commits(response.json(),urls_author)
 
         while prox:
             link_prox = self.processamento.link_prox_(response.headers['Link'].split(","))
 
             if link_prox != '':
-                response = requests.get(link_prox)
-                commits.extend(self.processamento.get_list_commits(response))
+                response = requests.get(link_prox,auth=('CarlosQuixada', 'C@rlos95'))
+                urls_author = self.processamento.get_list_commits(response.json(),urls_author)
             else:
                 prox = False
 
-        return commits
+        return urls_author
+
+    #def get_authors(self,usuario,projeto):
